@@ -1,6 +1,5 @@
 import pycurl
 import re
-import uuid
 
 class FreeMobileAPI:
     def __init__(self):
@@ -94,22 +93,7 @@ class FreeMobileAPI:
                         filterIds["Out"].append(id.strip().split(" ")[4].split("=")[1][:-1].replace('"', ''))
 
         return filterIds
-
-    def AddFilter2(self, pattern, description):
-        uuid_ = str(uuid.uuid4()).replace('-', '')
-        print(uuid_)
-        params = "rule-id={uuid}&direction=2&pattern={pattern}&description={description}&full-day=1&full-week=1&media=1&action=0".format(uuid=uuid_, pattern=pattern, description=description)
-        
-        self.__handler.setopt(pycurl.URL, "https://mobile.free.fr/account/mes-services/filtres?action=save")
-        self.__handler.setopt(pycurl.CUSTOMREQUEST, "POST")        
-        self.__handler.setopt(pycurl.POSTFIELDS, params)
-        self.__handler.setopt(pycurl.HTTPHEADER, ("Content-type: application/x-www-form-urlencoded", "Cache-control: no-cache"))
-        self.__handler.setopt(pycurl.COOKIE, self.__cookies)
-
-        result = self.__handler.perform_rs()
-
-        return True if self.__handler.getinfo(pycurl.HTTP_CODE) == 302 else False
-
+    
 
     def AddFilter(self, Params):       
         self.__handler.setopt(pycurl.URL, "https://mobile.free.fr/account/mes-services/filtres?action=save")
